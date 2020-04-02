@@ -11,9 +11,16 @@ namespace Cities
             List<City> cities = CityDataImporter.LoadData();
 
             // TODO Swap out comparers as desired
-            IComparer<City> comparer = new NameComparer();
+            IComparer<City> nameComparer = new NameComparer();
+            IComparer<City> stateComparer = new StateComparer();
+            IComparer<City> areaComparer = new AreaComparer();
+            IComparer<City> populationComparer = new PopulationComparer();
 
-            cities.Sort(comparer);
+            CompoundComparer compoundComparer = new CompoundComparer();
+            compoundComparer.Comparers.Add(new StateComparer());
+            compoundComparer.Comparers.Add(new PopulationComparer());
+
+            cities.Sort(compoundComparer);
 
             PrintCities(cities);
 
